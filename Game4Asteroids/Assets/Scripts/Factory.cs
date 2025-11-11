@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public abstract class Factory : MonoBehaviour
+public abstract class Factory : ObjectPool
 {
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     public abstract IProduct GetProduct(Vector3 position, Quaternion rotation);
 }

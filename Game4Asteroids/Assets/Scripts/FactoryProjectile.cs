@@ -1,13 +1,14 @@
+using PoolTags;
 using UnityEngine;
 
 public class FactoryProjectile : Factory
 {
     public static FactoryProjectile Instance;
 
-    [SerializeField] Projectile projectile;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (Instance == null)
         {
             Instance = this;
@@ -18,10 +19,14 @@ public class FactoryProjectile : Factory
         }
     }
 
+    private void Start()
+    {
+        SetUpObjectPool();
+    }
+
     public override IProduct GetProduct(Vector3 position, Quaternion rotation)
     {
-        GameObject projectileInstance = Instantiate(projectile.gameObject,
-            position, rotation);
+        GameObject projectileInstance = GetValidObjectInPool(ProjectileTags.NormalProjectile, position, rotation);
 
         Projectile newProjectile = projectileInstance.GetComponent<Projectile>();
 

@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private Transform player;
     private float speed = 3.0f;
     private PlayerControls playerControls;
+    private int currentLives = 3;
 
     private Vector3 playerDirection = Vector3.zero;
     private Vector3 playerAimPosition;
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     {
         player = GetComponent<Transform>();
         playerControls = new PlayerControls();
+
+        currentLives = 3;
     }
 
     private void OnEnable()
@@ -49,6 +52,19 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerMovementImplemented();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Asteroid")
+        {
+            collision.gameObject.SetActive(false);
+            if (currentLives > 0)
+            {
+                currentLives--;
+            }
+            UIManager.Instance.SetCurrentLives(currentLives);
+        }
     }
 
     private void OnPlayerMove(InputAction.CallbackContext context)
