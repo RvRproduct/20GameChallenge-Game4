@@ -12,15 +12,23 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 playerDirection = Vector3.zero;
     private Vector3 playerAimPosition;
+    private bool isDead = false;
 
     private float thrustLengthMultiplier = 3.0f;
     private float thrustSpeedMultiplier = 1.5f;
     private Coroutine thrustingCoroutine = null;
+    [SerializeField] private float wrapBuffer = 0.05f;
+    private ParticleSystem playerParticle;
+    private SpriteRenderer spriteRenderer;
+    private BoxCollider2D boxCollider;
 
     private void Awake()
     {
         player = GetComponent<Transform>();
+        playerParticle = GetComponent<ParticleSystem>();
         playerControls = new PlayerControls();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
 
         currentLives = 3;
     }
@@ -37,7 +45,7 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Thrust.started += OnPlayerThrust;
 
         playerControls.Player.Shoot.started += OnPlayerShoot;
-    } 
+    }
 
     private void OnDisable()
     {
@@ -51,12 +59,45 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        PlayerMovementImplemented();
+        if (!isDead)
+        {
+            PlayerMovementImplemented();
+            WrapAround();
+        }    
     }
+
+    public void PlayerDead()
+    {
+        spriteRenderer.enabled = false;
+        boxCollider.enabled = false;
+        isDead = true;
+        playerParticle.Play();
+        StartCoroutine(OnPlayerDestory());
+
+    }
+
+    private IEnumerator OnPlayerDestory()
+    {
+        yield return new WaitUntil(() => !playerParticle.IsAlive(true));
+
+        gameObject.SetActive(false);
+        UIManager.Instance.LoadLevel(UIManager.loseScreen);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Asteroid")
+        {
+            collision.gameObject.SetActive(false);
+            if (currentLives > 0)
+            {
+                currentLives--;
+            }
+            UIManager.Instance.SetCurrentLives(currentLives);
+        }
+
+        if (collision.gameObject.tag == "ProjectileEnemy")
         {
             collision.gameObject.SetActive(false);
             if (currentLives > 0)
@@ -96,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
         spawnPosition += player.up * 0.5f;
 
-        FactoryProjectile.Instance.GetProduct(spawnPosition, spawnRotation);
+        FactoryProjectile.Instance.GetProduct(PoolTags.ProjectileTags.NormalProjectile, spawnPosition, spawnRotation);
     }
 
     private void PlayerMovementImplemented()
@@ -116,6 +157,41 @@ public class PlayerController : MonoBehaviour
             float angle = (Mathf.Atan2(aimDirection.x, aimDirection.y) * Mathf.Rad2Deg) * -1.0f;
             Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
             player.rotation = targetRotation;
+        }
+    }
+
+    private void WrapAround()
+    {
+        Vector3 position = transform.position;
+        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(position);
+
+        bool wrapped = false;
+
+        if (viewportPosition.x > 1f + wrapBuffer)
+        {
+            viewportPosition.x = 0f - wrapBuffer;
+            wrapped = true;
+        }
+        else if (viewportPosition.x < 0f - wrapBuffer)
+        {
+            viewportPosition.x = 1f + wrapBuffer;
+            wrapped = true;
+        }
+
+        if (viewportPosition.y > 1f + wrapBuffer)
+        {
+            viewportPosition.y = 0f - wrapBuffer;
+            wrapped = true;
+        }
+        else if (viewportPosition.y < 0f - wrapBuffer)
+        {
+            viewportPosition.y = 1f + wrapBuffer;
+            wrapped = true;
+        }
+
+        if (wrapped)
+        {
+            transform.position = Camera.main.ViewportToWorldPoint(viewportPosition);
         }
     }
 

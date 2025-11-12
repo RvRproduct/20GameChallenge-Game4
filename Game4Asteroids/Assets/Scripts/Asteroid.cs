@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using PoolTags;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Asteroid : BasePoolObject, IProduct
@@ -16,12 +17,19 @@ public class Asteroid : BasePoolObject, IProduct
     private EAsteroidLevel currentLevel;
     private Vector3 asteroidDirection = new Vector3();
     private float speed = 3.0f;
+    private float currentSpeed = 3.0f;
     private float rotationSpeed = 90.0f;
-    [SerializeField] private float wrapBuffer = 0.1f;
+    [SerializeField] private float wrapBuffer = 0.05f;
+    private ParticleSystem asteroidParticle;
+    private SpriteRenderer spriteRenderer;
+    private CircleCollider2D circleCollider;
 
     protected override void Awake()
     {
         base.Awake();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        asteroidParticle = GetComponent<ParticleSystem>();
+        circleCollider = GetComponent<CircleCollider2D>();
         asteroid = GetComponent<Transform>();
         AsteroidScales.Add(EAsteroidLevel.LevelOne, new Vector3(1.0f, 1.0f, 1.0f));
         AsteroidScales.Add(EAsteroidLevel.LevelTwo, new Vector3(2.0f, 2.0f, 2.0f));
@@ -30,9 +38,12 @@ public class Asteroid : BasePoolObject, IProduct
 
     public void Initialize()
     {
+        spriteRenderer.enabled = true;
+        circleCollider.enabled = true;
         RandomizeInitialScale();
         RandomizeDirection();
         RandomizeSpeed();
+        currentSpeed = speed;
     }
 
     protected override string ProvidePoolReturnTag()
@@ -56,7 +67,7 @@ public class Asteroid : BasePoolObject, IProduct
 
     private void Update()
     {
-        asteroid.position += asteroidDirection * speed * Time.deltaTime;
+        asteroid.position += asteroidDirection * currentSpeed * Time.deltaTime;
         asteroid.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
         WrapAround();
     }
@@ -143,7 +154,13 @@ public class Asteroid : BasePoolObject, IProduct
         switch (currentLevel)
         {
             case EAsteroidLevel.LevelOne:
-                gameObject.SetActive(false);
+                circleCollider.enabled = false;
+                currentSpeed = 0.0f;
+                spriteRenderer.enabled = false;
+                UIManager.Instance.SetLocalScore(UIManager.Instance.GetLocalScore() + 1);
+                UIManager.Instance.SetHighScore();
+                asteroidParticle.Play();
+                StartCoroutine(OnAsteroidDestory());
                 break;
             case EAsteroidLevel.LevelTwo:
                 currentLevel = EAsteroidLevel.LevelOne;
@@ -154,6 +171,13 @@ public class Asteroid : BasePoolObject, IProduct
                 UpdateAsteroidScale();
                 break;
         }
+    }
+
+    private IEnumerator OnAsteroidDestory()
+    {
+        yield return new WaitUntil(() => !asteroidParticle.IsAlive(true));
+
+        gameObject.SetActive(false);
     }
 
     private void UpdateAsteroidScale()

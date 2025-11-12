@@ -7,5 +7,5 @@ public abstract class Factory : ObjectPool
     {
         base.Awake();
     }
-    public abstract IProduct GetProduct(Vector3 position, Quaternion rotation);
+    public abstract IProduct GetProduct(string poolTag, Vector3 position, Quaternion rotation);
 }

@@ -10,6 +10,7 @@ namespace PoolTags
     public struct ProjectileTags
     {
         public const string NormalProjectile = "NormalProjectile";
+        public const string EnemyProjectile = "EnemyProjectile";
     }
 
     public struct AsteroidReturnTags
@@ -22,18 +23,13 @@ namespace PoolTags
         public const string NormalAsteroid = "NormalAsteroid";
     }
 
-    public struct BackgroundReturnTags
+    public struct SaucerReturnTags
     {
-        public const string BackgroundReturn = "BackgroundPoolReturn";
+        public const string SaucerReturn = "SaucerPoolReturn";
     }
 
-    public struct BackgroundTags
+    public struct SaucerTags
     {
-        public const string OceanBackground = "OceanBackground";
-    }
-
-    public struct BackgroundSpawnTags
-    {
-        public const string BackgroundSpawn = "BackgroundSpawn";
+        public const string NormalSaucer = "NormalSaucer";
     }
 }

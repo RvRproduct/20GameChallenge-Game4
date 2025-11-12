@@ -7,7 +7,7 @@ public class FactoryAsteroid : Factory
 
     [SerializeField] private float spawnMargin = 0.1f;
     [SerializeField] private float maxSpawnRate = 3.0f;
-    private float currentSpawnRate = 0.0f;
+    private float currentSpawnRate = 0.1f;
 
     protected override void Awake()
     {
@@ -19,7 +19,7 @@ public class FactoryAsteroid : Factory
         }
         else
         {
-            Destroy(Instance);
+            Destroy(gameObject);
         }
 
         currentSpawnRate = maxSpawnRate;
@@ -36,14 +36,14 @@ public class FactoryAsteroid : Factory
 
         if (currentSpawnRate >= maxSpawnRate)
         {
-            GetProduct(SpawnOffscreen(), Quaternion.identity);
+            GetProduct(PoolTags.AsteroidTags.NormalAsteroid, SpawnOffscreen(), Quaternion.identity);
             currentSpawnRate = 0.0f;
         }
     }
 
-    public override IProduct GetProduct(Vector3 position, Quaternion rotation)
+    public override IProduct GetProduct(string poolTag, Vector3 position, Quaternion rotation)
     {
-        GameObject asteroidInstance = GetValidObjectInPool(AsteroidTags.NormalAsteroid, position, rotation);
+        GameObject asteroidInstance = GetValidObjectInPool(poolTag, position, rotation);
 
         if (asteroidInstance == null) { return null; }
 
@@ -67,7 +67,7 @@ public class FactoryAsteroid : Factory
                 viewportPosition.y = Random.value;
                 break;
             case 1:
-                viewportPosition.x = spawnMargin;
+                viewportPosition.x = 1f + spawnMargin;
                 viewportPosition.y = Random.value;
                 break;
             case 2:
@@ -76,7 +76,7 @@ public class FactoryAsteroid : Factory
                 break;
             case 3:
                 viewportPosition.x = Random.value;
-                viewportPosition.y = spawnMargin;
+                viewportPosition.y = 1f + spawnMargin;
                 break;
         }
 

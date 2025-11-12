@@ -24,14 +24,24 @@ public class FactoryProjectile : Factory
         SetUpObjectPool();
     }
 
-    public override IProduct GetProduct(Vector3 position, Quaternion rotation)
+    public override IProduct GetProduct(string poolTag, Vector3 position, Quaternion rotation)
     {
-        GameObject projectileInstance = GetValidObjectInPool(ProjectileTags.NormalProjectile, position, rotation);
+        GameObject projectileInstance = GetValidObjectInPool(poolTag, position, rotation);
 
-        Projectile newProjectile = projectileInstance.GetComponent<Projectile>();
+        switch (poolTag)
+        {
+            case PoolTags.ProjectileTags.NormalProjectile:
+                Projectile normalProjectile = projectileInstance.GetComponent<Projectile>();
 
-        newProjectile.Initialize();
+                normalProjectile.Initialize();
+                return normalProjectile;
+            case PoolTags.ProjectileTags.EnemyProjectile:
+                ProjectileEnemy enemyProjectile = projectileInstance.GetComponent<ProjectileEnemy>();
 
-        return newProjectile;
+                enemyProjectile.Initialize();
+                return enemyProjectile;
+        }
+
+        return null;
     }
 }
