@@ -1525,13 +1525,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1712876611}
     - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: deathClip
+      value: 
+      objectReference: {fileID: 8300000, guid: dc643952ff284394ba255010a7169cd1, type: 3}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 1646905187}
     - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: theMusicer
+      value: 
+      objectReference: {fileID: 7769935459651645204}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: theSounder
+      value: 
+      objectReference: {fileID: 7769935459651645205}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
       propertyPath: scoreNumber
       value: 
       objectReference: {fileID: 1646905187}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: baseMusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 670f9002121decf40b379dabae2bc60f, type: 3}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: destroyedClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 831514a587beb4446b6ccbfd9f508694, type: 3}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: shotEnemyClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 70ddac5e01154be44a30a626fb581403, type: 3}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: shotPlayerClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7df0ad05c60e4aa43b7217b0d1d027bb, type: 3}
     - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
       propertyPath: highscoreNumber
       value: 
@@ -1581,6 +1609,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+--- !u!82 &7769935459651645204 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9221740296521185014, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+  m_PrefabInstance: {fileID: 7769935459651645203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &7769935459651645205 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4159568943960988578, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+  m_PrefabInstance: {fileID: 7769935459651645203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
