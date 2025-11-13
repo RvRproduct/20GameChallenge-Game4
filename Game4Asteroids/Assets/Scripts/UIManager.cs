@@ -18,10 +18,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AudioClip footLettuceClip;
     [SerializeField] private AudioClip yeahClip;
     [SerializeField] private AudioClip baseMusicClip;
-    [SerializeField] private AudioClip deathClip;
-    [SerializeField] private AudioClip destroyedClip;
-    [SerializeField] private AudioClip shotPlayerClip;
-    [SerializeField] private AudioClip shotEnemyClip;
 
     [SerializeField] TextMeshProUGUI scoreNumber;
     [SerializeField] TextMeshProUGUI highscoreNumber;
@@ -85,12 +81,19 @@ public class UIManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case loseScreen:
+                theMusicer.Stop();
                 theMusicer.clip = creepySongClip;
                 theMusicer.Play();
                 break;
             case mainGame:
+                theMusicer.Stop();
+                theMusicer.clip = baseMusicClip;
+                theMusicer.Play();
                 break;
             case mainMenu:
+                theMusicer.Stop();
+                theMusicer.clip = baseMusicClip;
+                theMusicer.Play();
                 break;
         }
     }
@@ -218,24 +221,6 @@ public class UIManager : MonoBehaviour
                     theMusicer.Play();
                     return;
                 }
-                break;
-            case death:
-                theSounder.Stop();
-                theSounder.clip = deathClip;
-                theSounder.Play();
-                break;
-            case destroyed:
-                theSounder.Stop();
-                theSounder.clip = destroyedClip;
-                theSounder.Play();
-                break;
-            case shotPlayer:
-                theSounder.Stop();
-                theSounder.clip = shotPlayerClip;
-                theSounder.Play();
-                break;
-            case shotEnemy:
-
                 break;
         }
     }

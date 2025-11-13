@@ -285,12 +285,16 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
+      propertyPath: maxSpawnRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.data[0].MAXPOOLSIZE
-      value: 25
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.data[0].objectToPool
@@ -1067,7 +1071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5606382098399419566, guid: 11a07e2f2fbe98745be25ea2fe68d5b4, type: 3}
       propertyPath: maxSpawnRate
-      value: 5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606382098399419566, guid: 11a07e2f2fbe98745be25ea2fe68d5b4, type: 3}
+      propertyPath: objectPoolPairs.Array.data[0].MAXPOOLSIZE
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

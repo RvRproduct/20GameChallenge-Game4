@@ -24,9 +24,12 @@ public class Asteroid : BasePoolObject, IProduct
     private SpriteRenderer spriteRenderer;
     private CircleCollider2D circleCollider;
 
+    [SerializeField] private AudioClip destroyedClip;
+    private AudioSource audioSource;
     protected override void Awake()
     {
         base.Awake();
+        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         asteroidParticle = GetComponent<ParticleSystem>();
         circleCollider = GetComponent<CircleCollider2D>();
@@ -151,6 +154,10 @@ public class Asteroid : BasePoolObject, IProduct
 
     private void ChangeAsteroidLevel()
     {
+        audioSource.Stop();
+        audioSource.clip = destroyedClip;
+        audioSource.Play();
+
         switch (currentLevel)
         {
             case EAsteroidLevel.LevelOne:

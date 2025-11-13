@@ -1,7 +1,6 @@
-using PoolTags;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Saucer : BasePoolObject, IProduct
 {
@@ -16,10 +15,16 @@ public class Saucer : BasePoolObject, IProduct
     private Vector3 saucerDirection = new Vector3();
     private ParticleSystem saucerParticle;
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
+    private bool isDead = false;
+
+    [SerializeField] private AudioClip destroyedClip;
+    [SerializeField] private AudioClip shotEnemyClip;
 
     protected override void Awake()
     {
         base.Awake();
+        audioSource = GetComponent<AudioSource>();
         saucerParticle = GetComponent<ParticleSystem>();
         circleCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -27,6 +32,8 @@ public class Saucer : BasePoolObject, IProduct
     }
     public void Initialize()
     {
+        currentShootRate = 0.0f;
+        isDead = false;
         circleCollider.enabled = true;
         spriteRenderer.enabled = true;
         RandomizeDirection();
@@ -59,13 +66,19 @@ public class Saucer : BasePoolObject, IProduct
     private void SaucerShoot()
     {
         currentShootRate += Time.deltaTime;
-        if (currentShootRate >= maxShootRate)
+        if (currentShootRate >= maxShootRate && !isDead)
         {
             Vector3 spawnPosition = saucer.position;
             Quaternion spawnRotation = saucer.rotation * Quaternion.Euler(0f, 0f, 180f);
 
             spawnPosition += (saucer.up * -0.5f);
 
+            if (SceneManager.GetActiveScene().name == UIManager.mainGame)
+            {
+                audioSource.Stop();
+                audioSource.clip = shotEnemyClip;
+                audioSource.Play();
+            }
             FactoryProjectile.Instance.GetProduct(PoolTags.ProjectileTags.EnemyProjectile, spawnPosition, spawnRotation);
             currentShootRate = 0.0f;
         }
@@ -134,6 +147,10 @@ public class Saucer : BasePoolObject, IProduct
             UIManager.Instance.SetLocalScore(UIManager.Instance.GetLocalScore() + 1);
             UIManager.Instance.SetHighScore();
             saucerParticle.Play();
+            audioSource.Stop();
+            audioSource.clip = destroyedClip;
+            audioSource.Play();
+            isDead = true;
             StartCoroutine(OnSaucerDestory());
         }
     }

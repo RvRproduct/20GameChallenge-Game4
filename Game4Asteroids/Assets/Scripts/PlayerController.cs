@@ -22,8 +22,12 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
 
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private AudioClip shotPlayerClip;
+    private AudioSource audioSource;
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         player = GetComponent<Transform>();
         playerParticle = GetComponent<ParticleSystem>();
         playerControls = new PlayerControls();
@@ -49,12 +53,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+
         playerControls.Player.Move.performed -= OnPlayerMove;
         playerControls.Player.Move.canceled -= OnPlayerMove;
 
         playerControls.Player.Aim.performed -= OnPlayerAim;
 
+        playerControls.Player.Thrust.started -= OnPlayerThrust;
+
         playerControls.Player.Shoot.started -= OnPlayerShoot;
+
+        playerControls.Disable();
     }
 
     private void Update()
@@ -72,6 +81,9 @@ public class PlayerController : MonoBehaviour
         boxCollider.enabled = false;
         isDead = true;
         playerParticle.Play();
+        audioSource.Stop();
+        audioSource.clip = deathClip;
+        audioSource.Play();
         StartCoroutine(OnPlayerDestory());
 
     }
@@ -136,6 +148,9 @@ public class PlayerController : MonoBehaviour
         Quaternion spawnRotation = player.rotation;
 
         spawnPosition += player.up * 0.5f;
+        audioSource.Stop();
+        audioSource.clip = shotPlayerClip;
+        audioSource.Play();
 
         FactoryProjectile.Instance.GetProduct(PoolTags.ProjectileTags.NormalProjectile, spawnPosition, spawnRotation);
     }

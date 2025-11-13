@@ -272,12 +272,16 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
+      propertyPath: maxSpawnRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.data[0].MAXPOOLSIZE
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4037132813292202743, guid: 87ca6650c28daa242a3849569d87c51e, type: 3}
       propertyPath: objectPoolPairs.Array.data[0].objectToPool
@@ -1047,6 +1051,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5606382098399419566, guid: 11a07e2f2fbe98745be25ea2fe68d5b4, type: 3}
+      propertyPath: maxSpawnRate
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606382098399419566, guid: 11a07e2f2fbe98745be25ea2fe68d5b4, type: 3}
+      propertyPath: objectPoolPairs.Array.data[0].MAXPOOLSIZE
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1260,6 +1272,18 @@ PrefabInstance:
       propertyPath: LifeThree
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: theMusicer
+      value: 
+      objectReference: {fileID: 7769935459651645204}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: theSounder
+      value: 
+      objectReference: {fileID: 7769935459651645205}
+    - target: {fileID: 3998763815953565752, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+      propertyPath: baseMusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 670f9002121decf40b379dabae2bc60f, type: 3}
     - target: {fileID: 5184111387037991373, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1305,6 +1329,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+--- !u!82 &7769935459651645204 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9221740296521185014, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+  m_PrefabInstance: {fileID: 7769935459651645203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &7769935459651645205 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4159568943960988578, guid: 35de6b805388f094896eb19913bb41e1, type: 3}
+  m_PrefabInstance: {fileID: 7769935459651645203}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
